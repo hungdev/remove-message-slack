@@ -21,7 +21,7 @@ var messages = [];
 // ---------------------------------------------------------------------------------------------------------------------
 const express = require('express')
 const app = express()
-const port = PORT || 3000
+const port = process.env.PORT || 3000
 
 function deleteMessage() {
   if (messages.length == 0) {
@@ -56,6 +56,7 @@ function deleteMessage() {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+app.get('/', (req, res) => res.send('Hello Cee!'))
 
 app.get('/rm', async (req, res) => {
   await https.get(historyApiUrl, function (res) {
