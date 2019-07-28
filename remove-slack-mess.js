@@ -1,11 +1,12 @@
 var https = require('https');
+require('dotenv').config()
 
 // CONFIGURATION #######################################################################################################
 
 // https://api.slack.com/custom-integrations/legacy-tokens
-var token = 'xoxp-708232577264-710093011991-707768378884-41e6ff00eba42d50124c114556c6df21';
+var token = process.env.TOKEN;
 // https://app.slack.com/client/TLU6UGZ7S/CLW2R0DU7
-var channel = 'CLW2R0DU7';
+var channel = process.env.CHANNEL;
 var privateChannel = false;
 var delay = 300; // delay between delete operations in millisecond
 
