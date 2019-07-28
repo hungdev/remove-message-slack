@@ -1,5 +1,6 @@
 var https = require('https');
 require('dotenv').config()
+
 // CONFIGURATION #######################################################################################################
 
 // https://api.slack.com/custom-integrations/legacy-tokens
@@ -18,6 +19,9 @@ var deleteApiUrl = baseApiUrl + 'chat.delete?token=' + token + '&channel=' + cha
 var messages = [];
 
 // ---------------------------------------------------------------------------------------------------------------------
+const express = require('express')
+const app = express()
+const port = PORT || 3000
 
 function deleteMessage() {
   if (messages.length == 0) {
@@ -52,22 +56,28 @@ function deleteMessage() {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-https.get(historyApiUrl, function (res) {
 
-  var body = '';
+app.get('/rm', async (req, res) => {
+  await https.get(historyApiUrl, function (res) {
 
-  res.on('data', function (chunk) {
-    body += chunk;
+    var body = '';
+
+    res.on('data', function (chunk) {
+      body += chunk;
+    });
+
+    res.on('end', function () {
+
+      var response = JSON.parse(body);
+      for (var i = 0; i < response.messages.length; i++) {
+        messages.push(response.messages[i].ts);
+      }
+      deleteMessage();
+    });
+  }).on('error', function (e) {
+    console.log("Got an error: ", e);
   });
+  res.end("Remove Okey")
+})
 
-  res.on('end', function () {
-
-    var response = JSON.parse(body);
-    for (var i = 0; i < response.messages.length; i++) {
-      messages.push(response.messages[i].ts);
-    }
-    deleteMessage();
-  });
-}).on('error', function (e) {
-  console.log("Got an error: ", e);
-});
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
