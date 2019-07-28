@@ -1,6 +1,5 @@
 var https = require('https');
 require('dotenv').config()
-
 // CONFIGURATION #######################################################################################################
 
 // https://api.slack.com/custom-integrations/legacy-tokens
