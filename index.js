@@ -1,5 +1,11 @@
 var https = require('https');
+var cors = require("cors");
+const bodyParser = require('body-parser');
 require('dotenv').config()
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // CONFIGURATION #######################################################################################################
 
